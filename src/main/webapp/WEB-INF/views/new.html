@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Kanon</title>
+</head>
+<body>
+
+<form th:method="POST" th:action="@{/create}" th:object="${neKanon}">
+    <label for="equation">Ведіть мету: F(x)=</label>
+    <input type="text" th:field="*{equation}" id="equation">
+    <label for="stringMeta">→</label>
+    <input type="text" th:field="*{stringMeta}" id="stringMeta">
+    <br>
+    <div th:each="condition : ${neKanon.getConditionList()}">
+        <a th:href="@{/{id}(id=${condition.getId()})}"
+           th:text="${condition.getCondition()}">Condition</a>
+    </div>
+    <br>
+    <label for="limitation">Enter limitation:</label>
+    <input type="text" th:field="*{limitation}" id="limitation">
+    <br>
+    <br>
+    <input type="submit" value="Calculate">
+</form>
+<br>
+<form th:method="GET" th:action="@{/add}">
+    <input type="submit" value="Add Condition">
+</form>
+<form th:method="GET" th:action="@{/clear}">
+    <input type="submit" value="Clear">
+</form>
+<hr>
+<div th:if="${kanon} != null">
+    <p th:utext="${kanon.getLimitations()}">Limitations</p>
+    <hr>
+    <h3>Kanon:</h3>
+    <p th:utext="${kanon.getEquation()}">Equation</p>
+    <div th:each="condition : ${kanon.getConditions()}">
+        <p th:utext="${condition}">Condition</p>
+    </div>
+    <p th:utext="${'Z<sub>1</sub>...Z<sub>' + kanon.getMatrixEquation().size() + '</sub>≥0'}">Equation</p>
+    <hr>
+    <h3>Matrix view:</h3>
+    <p th:utext="${kanon.getEquation()}">Equation</p>
+    <p th:utext="${kanon.getStringMatrix()}">Matrix view</p>
+    <p th:utext="${'Z<sub>1</sub>...Z<sub>' + kanon.getMatrixEquation().size() + '</sub>≥0'}">Equation</p>
+</div>
+
+</body>
+</html>
